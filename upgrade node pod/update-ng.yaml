@@ -1,0 +1,41 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: inventure-eks
+  region: ap-south-1
+
+vpc:
+  id: vpc-03626fae7ed9a041e
+  securityGroup: sg-09fd1262f0bad3638
+  subnets:
+    private:
+      ap-south-1a:
+        id: subnet-0ac53ec2777b0e870
+      ap-south-1b:
+        id: subnet-0670a93edcfae63e5
+      ap-south-1c:
+        id: subnet-09722bc1b028d7d66
+
+nodeGroups:
+  - name: t3a-medium-nodeGroup
+    instanceType: t3a.medium
+    desiredCapacity: 4
+    minSize: 1
+    maxSize: 5
+    privateNetworking: true
+    subnets:
+      - subnet-0ac53ec2777b0e870
+      - subnet-0670a93edcfae63e5
+      - subnet-09722bc1b028d7d66
+    overrideBootstrapCommand: |
+      /etc/eks/bootstrap.sh inventure-eks --use-max-pods false --kubelet-extra-args "--max-pods=50"
+    launchTemplate:
+      id: lt-04a0c672550a3793b
+      version: 1
+    # preBootstrapCommands:
+    #   - |
+    #     /etc/eks/bootstrap.sh inventure-eks \
+    #       --use-max-pods false \
+    #       --kubelet-extra-args "--max-pods=50"
+

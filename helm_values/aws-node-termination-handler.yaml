@@ -1,0 +1,3 @@
+# Keep defaults; you can enable spot/interruption handling as needed:
+nodeSelector: {}
+tolerations: []
